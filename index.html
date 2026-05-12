@@ -499,9 +499,29 @@
   }
 
   @media (max-width: 600px) {
-    #local-video { width: 100px; height: 80px; }
-    .ctrl-btn { width: 44px; height: 44px; font-size: 1.1rem; }
-    .ctrl-btn.next { height: 44px; font-size: 0.85rem; }
+    #local-video {
+      width: 90px; height: 120px;
+      bottom: 110px; right: 0.75rem;
+      border-radius: 8px;
+    }
+    .video-controls {
+      padding: 0.75rem 0.5rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.92);
+      position: fixed;
+      bottom: 0;
+    }
+    .ctrl-btn {
+      width: 52px; height: 52px; font-size: 1.3rem;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .ctrl-btn.next { height: 52px; font-size: 0.85rem; padding: 0 0.9rem; }
+    .ctrl-btn.like { width: 64px; height: 64px; font-size: 1.6rem; }
+    .video-topbar { padding: 0.75rem 1rem; }
+    .timer-badge { font-size: 1.2rem; }
+    .match-title { font-size: 1.8rem; }
   }
 </style>
 </head>
@@ -646,7 +666,11 @@ async function startApp() {
   }
 
   try {
-    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    localStream = await navigator.mediaDevices.getUserMedia({
+      video: isMobile ? { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } : true,
+      audio: true
+    });
     document.getElementById("local-video").srcObject = localStream;
   } catch (e) {
     console.error("Erreur caméra:", e.name, e.message);
