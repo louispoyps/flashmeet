@@ -1,0 +1,12 @@
+{
+  "name": "speeddate-server",
+  "version": "1.0.0",
+  "description": "WebRTC signaling server for SpeedDate",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.5"
+  }
+}
